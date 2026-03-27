@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm create:*)",
+      "Bash(npm list:*)",
+      "Bash(npx pnpm:*)",
+      "Bash(npm install:*)",
+      "Bash(export PATH=\"$PATH:/c/Users/lbrod/AppData/Roaming/npm\")",
+      "Bash(pnpm --version)",
+      "Bash(cp:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm dlx:*)"
+    ]
+  }
+}
