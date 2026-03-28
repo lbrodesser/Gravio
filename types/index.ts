@@ -35,3 +35,26 @@ export interface Nutzer {
   anzeigename: string | null
   erstellt_am: string
 }
+
+// --- Baukasten ---
+
+export type Einheit = 'm³' | 'm²' | 'm' | 'Stk' | 't'
+
+export interface Position {
+  id: string
+  name: string
+  einheit: Einheit
+  menge: number | null
+}
+
+export interface ElementTemplate {
+  id: string
+  created_at: string
+  name: string
+  description: string | null
+  laenge: number | null
+  breite: number | null
+  tiefe: number | null
+  positionen: Position[]
+  created_by: string
+}
