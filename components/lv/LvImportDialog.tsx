@@ -134,6 +134,7 @@ export function LvImportDialog({ open, onOpenChange }: Props): React.JSX.Element
       setShowFaktoren(false)
       setParsedRows(null)
       onOpenChange(false)
+      if (fileRef.current) fileRef.current.value = ''
     }
   }
 

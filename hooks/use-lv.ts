@@ -36,7 +36,7 @@ export function useLvPositionen(
   gruppeId: string | null
 ): UseQueryResult<LvPosition[], Error> {
   return useQuery({
-    queryKey: ['lv-positionen', gruppeId] as const,
+    queryKey: LV_POSITIONEN_KEY(gruppeId ?? ''),
     enabled: !!gruppeId,
     queryFn: async (): Promise<LvPosition[]> => {
       if (!gruppeId) return []
