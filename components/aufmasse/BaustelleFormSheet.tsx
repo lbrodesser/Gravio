@@ -128,14 +128,14 @@ export function BaustelleFormSheet({
               control={control}
               render={({ field }) => (
                 <Select
-                  value={field.value ?? ''}
-                  onValueChange={(val) => field.onChange(val === '' ? null : val)}
+                  value={field.value ?? '__none__'}
+                  onValueChange={(val) => field.onChange(val === '__none__' ? null : val)}
                 >
                   <SelectTrigger id="baustelle-lv-gruppe" className="h-14 text-base">
                     <SelectValue placeholder="Kein LV verknüpft" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Kein LV verknüpft</SelectItem>
+                    <SelectItem value="__none__">Kein LV verknüpft</SelectItem>
                     {lvGruppen.map((g) => (
                       <SelectItem key={g.id} value={g.id}>
                         {g.name}
