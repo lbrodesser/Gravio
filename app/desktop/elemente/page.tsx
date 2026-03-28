@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils'
 export default function DesktopElementePage(): React.JSX.Element {
   const [selected, setSelected] = useState<ElementTemplate | null>(null)
   const [isCreating, setIsCreating] = useState(false)
-  const { data: templates, isLoading, isError } = useElementTemplates()
+  const { data: templates, isLoading, isError, refetch } = useElementTemplates()
   const deleteMutation = useDeleteTemplate()
 
   function handleNew(): void {
@@ -32,9 +32,9 @@ export default function DesktopElementePage(): React.JSX.Element {
     setIsCreating(false)
   }
 
-  function handleDelete(id: string): void {
-    deleteMutation.mutate(id)
-    handlePanelClose()
+  async function handleDelete(id: string): Promise<void> {
+    const result = await deleteMutation.mutateAsync(id)
+    if (!result.error) handlePanelClose()
   }
 
   const showPanel = isCreating || selected !== null
@@ -59,7 +59,7 @@ export default function DesktopElementePage(): React.JSX.Element {
               <p className="text-sm text-muted-foreground">
                 Elemente konnten nicht geladen werden.
               </p>
-              <Button variant="outline" size="sm" onClick={() => window.location.reload()}>
+              <Button variant="outline" size="sm" onClick={() => void refetch()}>
                 Erneut versuchen
               </Button>
             </div>

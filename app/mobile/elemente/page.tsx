@@ -13,7 +13,7 @@ import type { ElementTemplate } from '@/types'
 export default function MobileElementePage(): React.JSX.Element {
   const [sheetOpen, setSheetOpen] = useState(false)
   const [editTemplate, setEditTemplate] = useState<ElementTemplate | null>(null)
-  const { data: templates, isLoading, isError } = useElementTemplates()
+  const { data: templates, isLoading, isError, refetch } = useElementTemplates()
   const deleteMutation = useDeleteTemplate()
 
   function handleEdit(template: ElementTemplate): void {
@@ -42,7 +42,7 @@ export default function MobileElementePage(): React.JSX.Element {
         ) : isError ? (
           <div className="flex flex-col items-center justify-center h-full gap-3 px-8 text-center">
             <p className="text-muted-foreground text-sm">Elemente konnten nicht geladen werden.</p>
-            <Button variant="outline" className="h-14" onClick={() => window.location.reload()}>
+            <Button variant="outline" className="h-14" onClick={() => void refetch()}>
               Erneut versuchen
             </Button>
           </div>
