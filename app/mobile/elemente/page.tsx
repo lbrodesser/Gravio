@@ -30,7 +30,7 @@ export default function MobileElementePage(): React.JSX.Element {
     <div className="flex flex-col h-full">
       <header className="sticky top-0 z-10 bg-background border-b border-border px-4 h-16 flex items-center justify-between shrink-0">
         <h1 className="text-lg font-semibold">Elemente</h1>
-        <Button size="icon" onClick={handleNew} className="h-10 w-10">
+        <Button size="icon" onClick={handleNew} className="h-14 w-14">
           <Plus className="h-5 w-5" />
           <span className="sr-only">Neues Element</span>
         </Button>

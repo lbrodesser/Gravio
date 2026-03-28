@@ -53,12 +53,14 @@ export async function updateElementTemplate(
 
   if (!user) return { error: 'Nicht angemeldet' }
 
-  const { error } = await supabase
+  const { data: rows, error } = await supabase
     .from('element_templates')
     .update(parsed.data)
     .eq('id', idParsed.data)
+    .select('id')
 
   if (error) return { error: error.message }
+  if (!rows?.length) return { error: 'Element nicht gefunden oder keine Berechtigung' }
 
   revalidatePath('/mobile/elemente')
   revalidatePath('/desktop/elemente')
@@ -78,12 +80,14 @@ export async function deleteElementTemplate(
 
   if (!user) return { error: 'Nicht angemeldet' }
 
-  const { error } = await supabase
+  const { data: rows, error } = await supabase
     .from('element_templates')
     .delete()
     .eq('id', idParsed.data)
+    .select('id')
 
   if (error) return { error: error.message }
+  if (!rows?.length) return { error: 'Element nicht gefunden oder keine Berechtigung' }
 
   revalidatePath('/mobile/elemente')
   revalidatePath('/desktop/elemente')
