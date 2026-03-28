@@ -8,14 +8,22 @@ import type { Position, Einheit } from '@/types'
 
 const EINHEITEN: Einheit[] = ['m³', 'm²', 'm', 'Stk', 't']
 
+export interface LvPositionOption {
+  id: string
+  kurztext: string
+  einheit: string
+}
+
 interface PositionenEditorProps {
   positionen: Position[]
   onChange: (positionen: Position[]) => void
+  lvPositionen?: LvPositionOption[]
 }
 
 export function PositionenEditor({
   positionen,
   onChange,
+  lvPositionen,
 }: PositionenEditorProps): React.JSX.Element {
   function addPosition(): void {
     onChange([
@@ -65,6 +73,23 @@ export function PositionenEditor({
               </option>
             ))}
           </select>
+          {lvPositionen && lvPositionen.length > 0 && (
+            <select
+              value={position.lv_position_id ?? ''}
+              onChange={(e) =>
+                updatePosition(position.id, 'lv_position_id', e.target.value || null)
+              }
+              className="h-14 rounded-md border border-input bg-background px-3 text-sm flex-1"
+              aria-label={`LV-Position ${index + 1}`}
+            >
+              <option value="">— kein LV —</option>
+              {lvPositionen.map((lv) => (
+                <option key={lv.id} value={lv.id}>
+                  {lv.kurztext} ({lv.einheit})
+                </option>
+              ))}
+            </select>
+          )}
           <Input
             type="number"
             step="0.01"

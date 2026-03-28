@@ -12,7 +12,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { PositionenEditor } from './PositionenEditor'
+import { PositionenEditor, type LvPositionOption } from './PositionenEditor'
 import { z } from 'zod'
 import {
   ElementTemplateFormSchema,
@@ -27,12 +27,14 @@ interface ElementFormSheetProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   editTemplate?: ElementTemplate | null
+  lvPositionen?: LvPositionOption[]
 }
 
 export function ElementFormSheet({
   open,
   onOpenChange,
   editTemplate,
+  lvPositionen,
 }: ElementFormSheetProps): React.JSX.Element {
   const isEditing = !!editTemplate
   const createMutation = useCreateTemplate()
@@ -162,7 +164,13 @@ export function ElementFormSheet({
           <PositionenEditor
             positionen={positionen}
             onChange={(p) => setValue('positionen', p, { shouldDirty: true })}
+            lvPositionen={lvPositionen}
           />
+          {errors.positionen && (
+            <p className="text-sm text-destructive">
+              Alle Positionen benötigen einen Namen
+            </p>
+          )}
 
           <div className="flex gap-3 pt-4">
             <Button

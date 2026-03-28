@@ -8,7 +8,7 @@ import { Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { PositionenEditor } from './PositionenEditor'
+import { PositionenEditor, type LvPositionOption } from './PositionenEditor'
 import {
   ElementTemplateFormSchema,
   type ElementTemplateFormData,
@@ -25,12 +25,14 @@ interface ElementDetailPanelProps {
   template: ElementTemplate | null
   onClose: () => void
   onDelete?: () => void
+  lvPositionen?: LvPositionOption[]
 }
 
 export function ElementDetailPanel({
   template,
   onClose,
   onDelete,
+  lvPositionen,
 }: ElementDetailPanelProps): React.JSX.Element {
   const isEditing = !!template
   const createMutation = useCreateTemplate()
@@ -163,6 +165,7 @@ export function ElementDetailPanel({
         <PositionenEditor
           positionen={positionen}
           onChange={(p) => setValue('positionen', p, { shouldDirty: true })}
+          lvPositionen={lvPositionen}
         />
         {errors.positionen && (
           <p className="text-sm text-destructive">
