@@ -80,7 +80,7 @@ export function LvImportDialog({ open, onOpenChange }: Props): React.JSX.Element
         const findCol = (keywords: string[]): string | undefined =>
           rawHeaders.find((h) => keywords.some((k) => normalizeHeader(h).includes(k)))
 
-        const artCol = findCol(['artkel', 'artikelnr', 'pos', 'nr'])
+        const artCol = findCol(['artikel', 'artikelnr', 'pos', 'nr'])
         const txtCol = findCol(['kurztext', 'beschreibung', 'text', 'bezeichnung', 'leistung'])
         const einheitCol = findCol(['einheit', 'eh', 'unit'])
         const preisCol = findCol(['ep', 'einheitspreis', 'preis', 'eur'])
@@ -130,7 +130,7 @@ export function LvImportDialog({ open, onOpenChange }: Props): React.JSX.Element
     }
 
     const result = await importLv.mutateAsync(data)
-    if (!(result as { error: string | null }).error) {
+    if (!result.error) {
       setShowFaktoren(false)
       setParsedRows(null)
       onOpenChange(false)
@@ -185,7 +185,7 @@ export function LvImportDialog({ open, onOpenChange }: Props): React.JSX.Element
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => onOpenChange(false)}>
+            <Button variant="outline" className="h-14" onClick={() => onOpenChange(false)}>
               Abbrechen
             </Button>
             <Button

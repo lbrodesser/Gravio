@@ -70,7 +70,7 @@ export function EinheitenFaktorenDialog({
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={onCancel} disabled={isLoading}>
+          <Button variant="outline" className="h-14" onClick={onCancel} disabled={isLoading}>
             Zurück
           </Button>
           <Button onClick={handleConfirm} disabled={isLoading} className="h-14">
