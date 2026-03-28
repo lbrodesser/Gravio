@@ -80,7 +80,7 @@ export default function MobileElementePage(): React.JSX.Element {
                   size="icon"
                   className="h-14 w-14 shrink-0 text-destructive hover:text-destructive"
                   onClick={() => deleteMutation.mutate(template.id)}
-                  disabled={deleteMutation.isPending}
+                  disabled={deleteMutation.isPending && deleteMutation.variables === template.id}
                   aria-label={`${template.name} löschen`}
                 >
                   <Trash2 className="h-5 w-5" />

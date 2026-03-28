@@ -164,6 +164,11 @@ export function ElementDetailPanel({
           positionen={positionen}
           onChange={(p) => setValue('positionen', p, { shouldDirty: true })}
         />
+        {errors.positionen && (
+          <p className="text-sm text-destructive">
+            Alle Positionen benötigen einen Namen
+          </p>
+        )}
 
         <div className="flex gap-3 pt-2">
           <Button
