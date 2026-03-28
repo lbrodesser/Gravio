@@ -33,8 +33,12 @@ export default function DesktopElementePage(): React.JSX.Element {
   }
 
   async function handleDelete(id: string): Promise<void> {
-    const result = await deleteMutation.mutateAsync(id)
-    if (!result.error) handlePanelClose()
+    try {
+      const result = await deleteMutation.mutateAsync(id)
+      if (!result.error) handlePanelClose()
+    } catch {
+      // onError in useDeleteTemplate handles rollback and toast
+    }
   }
 
   const showPanel = isCreating || selected !== null
