@@ -22,6 +22,7 @@ export default function DesktopAufmassePage(): React.JSX.Element {
 
   const { data: baustellen, isLoading: baustellenLoading, isError: baustellenError, refetch: refetchBaustellen } = useBaustellen()
   const deleteBaustelleMutation = useDeleteBaustelle()
+  const { data: lvGruppen } = useLvGruppen()
 
   function handleNewBaustelle(): void {
     setEditBaustelle(null)
@@ -104,7 +105,7 @@ export default function DesktopAufmassePage(): React.JSX.Element {
         )}
       </div>
 
-      <BaustelleFormSheet open={baustelleSheetOpen} onOpenChange={setBaustelleSheetOpen} editBaustelle={editBaustelle} />
+      <BaustelleFormSheet open={baustelleSheetOpen} onOpenChange={setBaustelleSheetOpen} editBaustelle={editBaustelle} lvGruppen={lvGruppen ?? []} />
       {selectedBaustelle && (
         <AufmassFormSheet open={aufmassSheetOpen} onOpenChange={setAufmassSheetOpen} baustelleId={selectedBaustelle.id} />
       )}

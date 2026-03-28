@@ -27,7 +27,7 @@ export function useBaustellen(): UseQueryResult<Baustelle[], Error> {
     queryFn: async (): Promise<Baustelle[]> => {
       const { data, error } = await supabase
         .from('baustellen')
-        .select('id, user_id, name, adresse, created_at, updated_at')
+        .select('id, user_id, name, adresse, lv_gruppe_id, created_at, updated_at')
         .order('created_at', { ascending: false })
 
       if (error) throw new Error(error.message)

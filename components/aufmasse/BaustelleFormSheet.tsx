@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useForm, type Resolver } from 'react-hook-form'
+import { useForm, type Resolver, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Sheet,
@@ -9,6 +9,13 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -21,17 +28,20 @@ import {
   useUpdateBaustelle,
 } from '@/hooks/use-baustellen'
 import type { Baustelle } from '@/types'
+import type { LvGruppe } from '@/types/lv'
 
 interface BaustelleFormSheetProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   editBaustelle?: Baustelle | null
+  lvGruppen: LvGruppe[]
 }
 
 export function BaustelleFormSheet({
   open,
   onOpenChange,
   editBaustelle,
+  lvGruppen,
 }: BaustelleFormSheetProps): React.JSX.Element {
   const isEditing = !!editBaustelle
   const createMutation = useCreateBaustelle()
@@ -41,17 +51,22 @@ export function BaustelleFormSheet({
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<BaustelleFormData>({
     resolver: zodResolver(BaustelleFormSchema) as Resolver<BaustelleFormData>,
-    defaultValues: { name: '', adresse: null },
+    defaultValues: { name: '', adresse: null, lv_gruppe_id: null },
   })
 
   useEffect(() => {
     if (editBaustelle) {
-      reset({ name: editBaustelle.name, adresse: editBaustelle.adresse })
+      reset({
+        name: editBaustelle.name,
+        adresse: editBaustelle.adresse,
+        lv_gruppe_id: editBaustelle.lv_gruppe_id,
+      })
     } else {
-      reset({ name: '', adresse: null })
+      reset({ name: '', adresse: null, lv_gruppe_id: null })
     }
   }, [editBaustelle, reset])
 
@@ -103,6 +118,32 @@ export function BaustelleFormSheet({
               {...register('adresse')}
               placeholder="Optional"
               className="h-14 text-base"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="baustelle-lv-gruppe">Leistungsverzeichnis</Label>
+            <Controller
+              name="lv_gruppe_id"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  value={field.value ?? ''}
+                  onValueChange={(val) => field.onChange(val === '' ? null : val)}
+                >
+                  <SelectTrigger id="baustelle-lv-gruppe" className="h-14 text-base">
+                    <SelectValue placeholder="Kein LV verknüpft" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Kein LV verknüpft</SelectItem>
+                    {lvGruppen.map((g) => (
+                      <SelectItem key={g.id} value={g.id}>
+                        {g.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
             />
           </div>
 

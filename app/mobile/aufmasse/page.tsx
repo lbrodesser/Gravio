@@ -6,6 +6,7 @@ import { Plus, HardHat, Pencil, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { BaustelleFormSheet } from '@/components/aufmasse/BaustelleFormSheet'
 import { useBaustellen } from '@/hooks/use-baustellen'
+import { useLvGruppen } from '@/hooks/use-lv'
 import type { Baustelle } from '@/types'
 
 export default function MobileAufmassePage(): React.JSX.Element {
@@ -13,6 +14,7 @@ export default function MobileAufmassePage(): React.JSX.Element {
   const [editBaustelle, setEditBaustelle] = useState<Baustelle | null>(null)
   const router = useRouter()
   const { data: baustellen, isLoading, isError, refetch } = useBaustellen()
+  const { data: lvGruppen } = useLvGruppen()
 
   function handleNew(): void {
     setEditBaustelle(null)
@@ -64,7 +66,7 @@ export default function MobileAufmassePage(): React.JSX.Element {
         )}
       </main>
 
-      <BaustelleFormSheet open={sheetOpen} onOpenChange={setSheetOpen} editBaustelle={editBaustelle} />
+      <BaustelleFormSheet open={sheetOpen} onOpenChange={setSheetOpen} editBaustelle={editBaustelle} lvGruppen={lvGruppen ?? []} />
     </div>
   )
 }

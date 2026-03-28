@@ -7,6 +7,10 @@ export const BaustelleFormSchema = z.object({
     (v) => (v === '' ? null : v),
     z.string().max(200).nullable().optional()
   ),
+  lv_gruppe_id: z.preprocess(
+    (v) => (v === '' ? null : v),
+    z.string().uuid().nullable().optional()
+  ),
 })
 
 export type BaustelleFormData = z.infer<typeof BaustelleFormSchema>
