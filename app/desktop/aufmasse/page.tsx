@@ -5,9 +5,13 @@ import { Plus, HardHat, FileText, Pencil, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { BaustelleFormSheet } from '@/components/aufmasse/BaustelleFormSheet'
 import { AufmassFormSheet } from '@/components/aufmasse/AufmassFormSheet'
+import { AbrechnungCard } from '@/components/abrechnung/AbrechnungCard'
 import { useBaustellen, useDeleteBaustelle } from '@/hooks/use-baustellen'
 import { useAufmasse, useDeleteAufmass } from '@/hooks/use-aufmasse'
+import { useLvGruppen } from '@/hooks/use-lv'
+import { useAbrechnungenFuerBaustelle } from '@/hooks/use-abrechnungen'
 import type { Aufmass, Baustelle } from '@/types'
+import type { LvGruppe } from '@/types/lv'
 import { cn } from '@/lib/utils'
 
 export default function DesktopAufmassePage(): React.JSX.Element {
@@ -111,12 +115,24 @@ export default function DesktopAufmassePage(): React.JSX.Element {
 function AufmassePanel({ baustelle, onErfassen }: { baustelle: Baustelle; onErfassen: () => void }): React.JSX.Element {
   const { data: aufmasse, isLoading, isError, refetch } = useAufmasse(baustelle.id)
   const deleteAufmassMutation = useDeleteAufmass()
+  const { data: lvGruppen } = useLvGruppen()
+  const { data: abrechnungen } = useAbrechnungenFuerBaustelle(baustelle.id)
+
+  const lvGruppe: LvGruppe | null = lvGruppen?.find((g) => g.id === baustelle.lv_gruppe_id) ?? null
+  const gesamtkosten = abrechnungen?.reduce((sum, a) => sum + a.gesamtsumme, 0) ?? 0
 
   return (
     <>
       <div className="flex items-center justify-between px-6 h-14 border-b border-border shrink-0">
-        <h2 className="font-semibold truncate">{baustelle.name}</h2>
-        <Button size="sm" onClick={onErfassen} className="gap-1 shrink-0">
+        <div className="min-w-0 flex-1">
+          <h2 className="font-semibold truncate">{baustelle.name}</h2>
+          {gesamtkosten > 0 && (
+            <p className="text-xs text-muted-foreground">
+              Gesamtkosten: {gesamtkosten.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}
+            </p>
+          )}
+        </div>
+        <Button size="sm" onClick={onErfassen} className="gap-1 shrink-0 ml-4">
           <Plus className="h-4 w-4" />
           Aufmaß erfassen
         </Button>
@@ -140,6 +156,7 @@ function AufmassePanel({ baustelle, onErfassen }: { baustelle: Baustelle; onErfa
               <DesktopAufmassItem
                 key={a.id}
                 aufmass={a}
+                lvGruppe={lvGruppe}
                 onDelete={() => deleteAufmassMutation.mutate({ id: a.id, baustelleId: baustelle.id })}
                 isDeleting={deleteAufmassMutation.isPending && deleteAufmassMutation.variables?.id === a.id}
               />
@@ -151,23 +168,26 @@ function AufmassePanel({ baustelle, onErfassen }: { baustelle: Baustelle; onErfa
   )
 }
 
-function DesktopAufmassItem({ aufmass, onDelete, isDeleting }: { aufmass: Aufmass; onDelete: () => void; isDeleting: boolean }): React.JSX.Element {
+function DesktopAufmassItem({ aufmass, lvGruppe, onDelete, isDeleting }: { aufmass: Aufmass; lvGruppe: LvGruppe | null; onDelete: () => void; isDeleting: boolean }): React.JSX.Element {
   return (
-    <li className="flex items-start px-6 py-4 border-b border-border gap-4 group">
-      <div className="flex-1 min-w-0">
-        <p className="font-medium text-sm">{aufmass.element_name}</p>
-        <div className="mt-1 flex flex-wrap gap-x-4 gap-y-0.5">
-          {aufmass.positionen_werte.map((w, i) => (
-            <span key={i} className="text-xs text-muted-foreground">
-              {w.name}: <span className="text-foreground">{w.wert !== null ? `${w.wert} ${w.einheit}` : '—'}</span>
-            </span>
-          ))}
+    <li className="flex flex-col px-6 py-4 border-b border-border gap-3 group">
+      <div className="flex items-start gap-4">
+        <div className="flex-1 min-w-0">
+          <p className="font-medium text-sm">{aufmass.element_name}</p>
+          <div className="mt-1 flex flex-wrap gap-x-4 gap-y-0.5">
+            {aufmass.positionen_werte.map((w, i) => (
+              <span key={i} className="text-xs text-muted-foreground">
+                {w.name}: <span className="text-foreground">{w.wert !== null ? `${w.wert} ${w.einheit}` : '—'}</span>
+              </span>
+            ))}
+          </div>
+          {aufmass.notiz && <p className="text-xs text-muted-foreground mt-1 italic">{aufmass.notiz}</p>}
         </div>
-        {aufmass.notiz && <p className="text-xs text-muted-foreground mt-1 italic">{aufmass.notiz}</p>}
+        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity shrink-0" onClick={onDelete} disabled={isDeleting} aria-label={`${aufmass.element_name} löschen`}>
+          <Trash2 className="h-4 w-4" />
+        </Button>
       </div>
-      <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity shrink-0" onClick={onDelete} disabled={isDeleting} aria-label={`${aufmass.element_name} löschen`}>
-        <Trash2 className="h-4 w-4" />
-      </Button>
+      <AbrechnungCard aufmass={aufmass} lvGruppe={lvGruppe} />
     </li>
   )
 }
