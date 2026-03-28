@@ -9,6 +9,7 @@ const navItems = [
   { href: '/mobile/home', icon: PenLine, label: 'Skizze' },
   { href: '/mobile/elemente', icon: Layers, label: 'Elemente' },
   { href: '/mobile/aufmasse', icon: FileText, label: 'Aufmaße' },
+  { href: '/mobile/lv', icon: FileText, label: 'Leistungsverzeichnis' },
   { href: '/mobile/einstellungen', icon: Settings, label: 'Einstellungen' },
 ] as const
 
