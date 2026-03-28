@@ -51,12 +51,12 @@ export function PositionenEditor({
       <Label>Positionen</Label>
 
       {positionen.map((position, index) => (
-        <div key={position.id} className="flex gap-2 items-center">
+        <div key={position.id} className="flex flex-wrap gap-2 items-center">
           <Input
             placeholder={`Position ${index + 1}`}
             value={position.name}
             onChange={(e) => updatePosition(position.id, 'name', e.target.value)}
-            className="h-14 text-base flex-1"
+            className="h-14 text-base flex-1 min-w-[120px]"
             aria-label={`Name Position ${index + 1}`}
           />
           <select
@@ -73,23 +73,6 @@ export function PositionenEditor({
               </option>
             ))}
           </select>
-          {lvPositionen && lvPositionen.length > 0 && (
-            <select
-              value={position.lv_position_id ?? ''}
-              onChange={(e) =>
-                updatePosition(position.id, 'lv_position_id', e.target.value || null)
-              }
-              className="h-14 rounded-md border border-input bg-background px-3 text-sm flex-1"
-              aria-label={`LV-Position ${index + 1}`}
-            >
-              <option value="">— kein LV —</option>
-              {lvPositionen.map((lv) => (
-                <option key={lv.id} value={lv.id}>
-                  {lv.kurztext} ({lv.einheit})
-                </option>
-              ))}
-            </select>
-          )}
           <Input
             type="number"
             step="0.01"
@@ -115,6 +98,23 @@ export function PositionenEditor({
           >
             <Trash2 className="h-5 w-5" />
           </Button>
+          {lvPositionen && lvPositionen.length > 0 && (
+            <select
+              value={position.lv_position_id ?? ''}
+              onChange={(e) =>
+                updatePosition(position.id, 'lv_position_id', e.target.value || null)
+              }
+              className="h-14 rounded-md border border-input bg-background px-3 text-base w-full"
+              aria-label={`LV-Position ${index + 1}`}
+            >
+              <option value="">— kein LV —</option>
+              {lvPositionen.map((lv) => (
+                <option key={lv.id} value={lv.id}>
+                  {lv.kurztext} ({lv.einheit})
+                </option>
+              ))}
+            </select>
+          )}
         </div>
       ))}
 
