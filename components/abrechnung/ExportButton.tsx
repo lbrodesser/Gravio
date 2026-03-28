@@ -56,7 +56,8 @@ export function ExportButton({ abrechnungId, label = 'Export' }: Props): React.J
     <Button
       size="sm"
       variant="outline"
-      className="h-10 shrink-0"
+      className="h-10 shrink-0 min-w-[96px]"
+      aria-label="Abrechnung exportieren"
       onClick={handleExport}
       disabled={isLoading}
     >
