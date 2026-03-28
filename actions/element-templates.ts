@@ -1,6 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { z } from 'zod'
 import { createServerClient } from '@/lib/supabase/server'
 import {
   ElementTemplateFormSchema,
@@ -37,12 +38,20 @@ export async function updateElementTemplate(
   id: string,
   data: ElementTemplateFormData
 ): Promise<{ error: string | null }> {
+  const idParsed = z.string().uuid().safeParse(id)
+  if (!idParsed.success) return { error: 'Ungültige ID' }
+
   const parsed = ElementTemplateFormSchema.safeParse(data)
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? 'Ungültige Eingabe' }
   }
 
   const supabase = await createServerClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) return { error: 'Nicht angemeldet' }
 
   const { error } = await supabase
     .from('element_templates')
@@ -59,7 +68,15 @@ export async function updateElementTemplate(
 export async function deleteElementTemplate(
   id: string
 ): Promise<{ error: string | null }> {
+  const idParsed = z.string().uuid().safeParse(id)
+  if (!idParsed.success) return { error: 'Ungültige ID' }
+
   const supabase = await createServerClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) return { error: 'Nicht angemeldet' }
 
   const { error } = await supabase
     .from('element_templates')
