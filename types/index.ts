@@ -35,6 +35,7 @@ export interface Position {
   name: string
   einheit: Einheit
   menge: number | null
+  lv_position_id?: string | null
 }
 
 export interface ElementTemplate {
@@ -56,6 +57,7 @@ export interface Baustelle {
   user_id: string
   name: string
   adresse: string | null
+  lv_gruppe_id: string | null
   created_at: string
   updated_at: string
 }
@@ -64,6 +66,7 @@ export interface AufmassPositionWert {
   name: string
   einheit: Einheit
   wert: number | null
+  lv_position_id?: string | null
 }
 
 export interface Aufmass {

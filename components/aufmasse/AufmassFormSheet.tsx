@@ -59,6 +59,7 @@ export function AufmassFormSheet({
     },
   })
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const selectedTemplateId = watch('element_template_id')
   const positionen_werte = watch('positionen_werte')
 
@@ -72,6 +73,7 @@ export function AufmassFormSheet({
       name: p.name,
       einheit: p.einheit,
       wert: p.menge,
+      lv_position_id: p.lv_position_id ?? null,
     }))
     setValue('positionen_werte', werte, { shouldDirty: true })
   }, [selectedTemplateId, templates, setValue])

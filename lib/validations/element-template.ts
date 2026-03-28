@@ -8,6 +8,7 @@ export const PositionSchema = z.object({
   name: z.string().min(1, 'Name ist erforderlich'),
   einheit: EinheitSchema,
   menge: z.number().nullable(),
+  lv_position_id: z.string().uuid().nullable().optional(),
 })
 
 // Hilfsfunktion: leere Strings und NaN → null für numerische Felder

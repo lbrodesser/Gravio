@@ -12,6 +12,7 @@ export const AufmassPositionWertSchema = z.object({
         : Number(v),
     z.number().nullable()
   ),
+  lv_position_id: z.string().uuid().nullable().optional(),
 })
 
 export const AufmassFormSchema = z.object({
