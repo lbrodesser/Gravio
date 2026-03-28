@@ -3,6 +3,17 @@
 import { useState } from 'react'
 import { ChevronDown, ChevronRight, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { useDeleteLvGruppe, useLvPositionen } from '@/hooks/use-lv'
 import type { LvGruppe } from '@/types/lv'
 
@@ -22,6 +33,7 @@ export function LvGruppeCard({ gruppe }: Props): React.JSX.Element {
           type="button"
           className="flex-1 flex items-center gap-2 text-left"
           onClick={() => setExpanded((v) => !v)}
+          aria-expanded={expanded}
         >
           {expanded ? (
             <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
@@ -30,15 +42,38 @@ export function LvGruppeCard({ gruppe }: Props): React.JSX.Element {
           )}
           <span className="font-medium">{gruppe.name}</span>
         </button>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-10 w-10 text-destructive hover:text-destructive"
-          onClick={() => deleteGruppe.mutate(gruppe.id)}
-          disabled={deleteGruppe.isPending}
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger
+            render={
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-14 w-14 text-destructive hover:text-destructive"
+                disabled={deleteGruppe.isPending}
+              />
+            }
+          >
+            <Trash2 className="h-4 w-4" />
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>LV löschen?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Das Leistungsverzeichnis «{gruppe.name}» und alle enthaltenen Positionen werden
+                unwiderruflich gelöscht.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                onClick={() => deleteGruppe.mutate(gruppe.id)}
+              >
+                Löschen
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
 
       {expanded && (

@@ -2,14 +2,14 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { PenLine, Layers, FileText, Settings } from 'lucide-react'
+import { PenLine, Layers, FileText, ClipboardList, Settings } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navItems = [
   { href: '/mobile/home', icon: PenLine, label: 'Skizze' },
   { href: '/mobile/elemente', icon: Layers, label: 'Elemente' },
   { href: '/mobile/aufmasse', icon: FileText, label: 'Aufmaße' },
-  { href: '/mobile/lv', icon: FileText, label: 'Leistungsverzeichnis' },
+  { href: '/mobile/lv', icon: ClipboardList, label: 'Leistungsverzeichnis' },
   { href: '/mobile/einstellungen', icon: Settings, label: 'Einstellungen' },
 ] as const
 

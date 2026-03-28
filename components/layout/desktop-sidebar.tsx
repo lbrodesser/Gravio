@@ -7,6 +7,7 @@ import {
   PenLine,
   Layers,
   FileText,
+  ClipboardList,
   Settings,
   ChevronLeft,
   ChevronRight,
@@ -21,7 +22,7 @@ const navItems = [
   { href: '/desktop/home', icon: PenLine, label: 'Skizze' },
   { href: '/desktop/elemente', icon: Layers, label: 'Elemente' },
   { href: '/desktop/aufmasse', icon: FileText, label: 'Aufmaße' },
-  { href: '/desktop/lv', icon: FileText, label: 'Leistungsverzeichnis' },
+  { href: '/desktop/lv', icon: ClipboardList, label: 'Leistungsverzeichnis' },
   { href: '/desktop/einstellungen', icon: Settings, label: 'Einstellungen' },
 ] as const
 

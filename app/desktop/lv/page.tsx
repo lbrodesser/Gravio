@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Plus } from 'lucide-react'
+import { Plus, ClipboardList } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useLvGruppen, useLvPositionen } from '@/hooks/use-lv'
 import { LvImportDialog } from '@/components/lv/LvImportDialog'
@@ -32,7 +32,13 @@ export default function DesktopLvPage(): React.JSX.Element {
               <div key={i} className="h-12 rounded bg-muted animate-pulse" />
             ))}
           {!isLoading && (!gruppen || gruppen.length === 0) && (
-            <p className="text-sm text-muted-foreground p-2">Kein LV vorhanden</p>
+            <div className="p-2 space-y-2">
+              <p className="text-sm text-muted-foreground">Kein LV vorhanden</p>
+              <Button size="sm" variant="outline" className="w-full" onClick={() => setImportOpen(true)}>
+                <Plus className="h-4 w-4 mr-1" />
+                LV importieren
+              </Button>
+            </div>
           )}
           {gruppen?.map((g) => (
             <button
@@ -53,9 +59,19 @@ export default function DesktopLvPage(): React.JSX.Element {
 
       {/* Rechte Spalte: Positionen */}
       <main className="flex-1 overflow-y-auto">
-        {!selectedGruppe && (
+        {!selectedGruppe && !isLoading && (!gruppen || gruppen.length === 0) && (
+          <div className="flex flex-col items-center justify-center h-full gap-4 text-muted-foreground">
+            <ClipboardList className="h-12 w-12 opacity-40" />
+            <p className="text-sm">Noch kein Leistungsverzeichnis importiert</p>
+            <Button onClick={() => setImportOpen(true)}>
+              <Plus className="h-4 w-4 mr-1" />
+              LV importieren
+            </Button>
+          </div>
+        )}
+        {!selectedGruppe && (isLoading || (gruppen && gruppen.length > 0)) && (
           <div className="flex items-center justify-center h-full text-muted-foreground">
-            LV auswählen
+            <p className="text-sm">LV auswählen</p>
           </div>
         )}
         {selectedGruppe && (
