@@ -63,9 +63,11 @@ export function ExportButton({ abrechnungId, label = 'Export' }: Props): React.J
       {isLoading ? (
         <Loader2 className="h-4 w-4 animate-spin" />
       ) : (
-        <Download className="h-4 w-4 mr-1" />
+        <>
+          <Download className="h-4 w-4 mr-1" />
+          {label}
+        </>
       )}
-      {label}
     </Button>
   )
 }
