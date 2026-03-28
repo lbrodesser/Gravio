@@ -44,11 +44,13 @@ export function LvGruppeCard({ gruppe }: Props): React.JSX.Element {
         </button>
         <AlertDialog>
           <AlertDialogTrigger
+            disabled={deleteGruppe.isPending}
             render={
               <Button
                 variant="ghost"
                 size="icon"
                 className="h-14 w-14 text-destructive hover:text-destructive"
+                aria-label="LV löschen"
                 disabled={deleteGruppe.isPending}
               />
             }
