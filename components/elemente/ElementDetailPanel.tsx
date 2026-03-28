@@ -58,14 +58,25 @@ export function ElementDetailPanel({
   const positionen = useWatch({ control, name: 'positionen' }) ?? []
 
   useEffect(() => {
-    reset({
-      name: template?.name ?? '',
-      description: template?.description ?? null,
-      laenge: template?.laenge ?? null,
-      breite: template?.breite ?? null,
-      tiefe: template?.tiefe ?? null,
-      positionen: template?.positionen ?? [],
-    })
+    if (template) {
+      reset({
+        name: template.name,
+        description: template.description,
+        laenge: template.laenge,
+        breite: template.breite,
+        tiefe: template.tiefe,
+        positionen: template.positionen,
+      })
+    } else {
+      reset({
+        name: '',
+        description: null,
+        laenge: null,
+        breite: null,
+        tiefe: null,
+        positionen: [],
+      })
+    }
   }, [template, reset])
 
   async function onSubmit(data: ElementTemplateFormData): Promise<void> {
@@ -93,6 +104,7 @@ export function ElementDetailPanel({
             onClick={onDelete}
             className="text-destructive hover:text-destructive"
             aria-label="Element löschen"
+            disabled={isPending}
           >
             <Trash2 className="h-5 w-5" />
           </Button>

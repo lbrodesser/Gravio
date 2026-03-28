@@ -161,7 +161,7 @@ export function ElementFormSheet({
 
           <PositionenEditor
             positionen={positionen}
-            onChange={(p) => setValue('positionen', p)}
+            onChange={(p) => setValue('positionen', p, { shouldDirty: true })}
           />
 
           <div className="flex gap-3 pt-4">
