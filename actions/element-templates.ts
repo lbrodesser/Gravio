@@ -56,7 +56,7 @@ export async function updateElementTemplate(
   const { error } = await supabase
     .from('element_templates')
     .update(parsed.data)
-    .eq('id', id)
+    .eq('id', idParsed.data)
 
   if (error) return { error: error.message }
 
@@ -81,7 +81,7 @@ export async function deleteElementTemplate(
   const { error } = await supabase
     .from('element_templates')
     .delete()
-    .eq('id', id)
+    .eq('id', idParsed.data)
 
   if (error) return { error: error.message }
 
