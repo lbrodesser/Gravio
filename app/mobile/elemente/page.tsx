@@ -13,7 +13,7 @@ import type { ElementTemplate } from '@/types'
 export default function MobileElementePage(): React.JSX.Element {
   const [sheetOpen, setSheetOpen] = useState(false)
   const [editTemplate, setEditTemplate] = useState<ElementTemplate | null>(null)
-  const { data: templates, isLoading } = useElementTemplates()
+  const { data: templates, isLoading, isError } = useElementTemplates()
   const deleteMutation = useDeleteTemplate()
 
   function handleEdit(template: ElementTemplate): void {
@@ -39,6 +39,13 @@ export default function MobileElementePage(): React.JSX.Element {
       <main className="flex-1 overflow-y-auto pb-20">
         {isLoading ? (
           <ElementeListeSkeleton />
+        ) : isError ? (
+          <div className="flex flex-col items-center justify-center h-full gap-3 px-8 text-center">
+            <p className="text-muted-foreground text-sm">Elemente konnten nicht geladen werden.</p>
+            <Button variant="outline" className="h-14" onClick={() => window.location.reload()}>
+              Erneut versuchen
+            </Button>
+          </div>
         ) : !templates?.length ? (
           <ElementeEmptyState onCreateClick={handleNew} />
         ) : (
@@ -73,6 +80,7 @@ export default function MobileElementePage(): React.JSX.Element {
                   size="icon"
                   className="h-14 w-14 shrink-0 text-destructive hover:text-destructive"
                   onClick={() => deleteMutation.mutate(template.id)}
+                  disabled={deleteMutation.isPending}
                   aria-label={`${template.name} löschen`}
                 >
                   <Trash2 className="h-5 w-5" />
