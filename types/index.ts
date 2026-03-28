@@ -16,16 +16,6 @@ export interface Skizze {
   aktualisiert_am: string
 }
 
-export interface Aufmass {
-  id: string
-  skizze_id: string
-  bezeichnung: string
-  wert: number
-  einheit: string
-  notiz: string | null
-  erstellt_am: string
-}
-
 export type NutzerRolle = 'admin' | 'vorarbeiter' | 'bauleiter'
 
 export interface Nutzer {
@@ -36,7 +26,7 @@ export interface Nutzer {
   erstellt_am: string
 }
 
-// --- Baukasten ---
+// ─── Baukasten ────────────────────────────────────────────────────────────────
 
 export type Einheit = 'm³' | 'm²' | 'm' | 'Stk' | 't'
 
@@ -57,4 +47,32 @@ export interface ElementTemplate {
   tiefe: number | null
   positionen: Position[]
   created_by: string
+}
+
+// ─── Baustellen & Aufmaße ─────────────────────────────────────────────────────
+
+export interface Baustelle {
+  id: string
+  user_id: string
+  name: string
+  adresse: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface AufmassPositionWert {
+  name: string
+  einheit: Einheit
+  wert: number | null
+}
+
+export interface Aufmass {
+  id: string
+  user_id: string
+  baustelle_id: string
+  element_template_id: string | null
+  element_name: string
+  positionen_werte: AufmassPositionWert[]
+  notiz: string | null
+  created_at: string
 }
