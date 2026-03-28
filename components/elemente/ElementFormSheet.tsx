@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Sheet,
@@ -42,7 +42,7 @@ export function ElementFormSheet({
     register,
     handleSubmit,
     setValue,
-    watch,
+    control,
     reset,
     formState: { errors },
   } = useForm<ElementTemplateFormInput, unknown, ElementTemplateFormData>({
@@ -57,7 +57,7 @@ export function ElementFormSheet({
     },
   })
 
-  const positionen = watch('positionen') ?? []
+  const positionen = useWatch({ control, name: 'positionen' }) ?? []
 
   useEffect(() => {
     if (editTemplate) {
