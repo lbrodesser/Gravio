@@ -102,6 +102,7 @@ export function useCreateAbrechnung(): UseMutationResult<
       })
       toast.success('Abrechnung erstellt')
     },
+    onError: () => toast.error('Fehler beim Erstellen der Abrechnung'),
   })
 }
 
@@ -124,6 +125,7 @@ export function useUpdateAbrechnungPosition(): UseMutationResult<
         queryKey: ['abrechnung-aufmass', variables.aufmassId],
       })
     },
+    onError: () => toast.error('Aktualisierung fehlgeschlagen'),
   })
 }
 
@@ -147,5 +149,6 @@ export function useDeleteAbrechnung(): UseMutationResult<
       })
       toast.success('Abrechnung gelöscht')
     },
+    onError: () => toast.error('Löschen fehlgeschlagen'),
   })
 }
