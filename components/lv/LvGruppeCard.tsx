@@ -51,7 +51,6 @@ export function LvGruppeCard({ gruppe }: Props): React.JSX.Element {
                 size="icon"
                 className="h-14 w-14 text-destructive hover:text-destructive"
                 aria-label="LV löschen"
-                disabled={deleteGruppe.isPending}
               />
             }
           >
