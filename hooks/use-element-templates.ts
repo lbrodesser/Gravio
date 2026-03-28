@@ -103,11 +103,14 @@ export function useDeleteTemplate(): UseMutationResult<
       }
       toast.error('Löschen fehlgeschlagen')
     },
-    onSuccess: (result) => {
-      queryClient.invalidateQueries({ queryKey: QUERY_KEY })
+    onSuccess: (result, _id, context) => {
       if (result.error) {
+        if (context?.previous) {
+          queryClient.setQueryData(QUERY_KEY, context.previous)
+        }
         toast.error(result.error)
       } else {
+        queryClient.invalidateQueries({ queryKey: QUERY_KEY })
         toast.success('Element gelöscht')
       }
     },
