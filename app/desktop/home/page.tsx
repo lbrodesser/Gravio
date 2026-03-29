@@ -1,5 +1,8 @@
+'use client'
+
 import { PenLine } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { toast } from 'sonner'
 
 export default function DesktopHomePage(): React.JSX.Element {
   return (
@@ -12,7 +15,11 @@ export default function DesktopHomePage(): React.JSX.Element {
         <p className="text-sm text-muted-foreground mt-2">
           Erstelle deine erste Baustellen-Skizze
         </p>
-        <Button className="mt-6 w-full" size="lg">
+        <Button
+          className="mt-6 w-full"
+          size="lg"
+          onClick={() => toast.info('Skizzen-Funktion folgt in Kürze')}
+        >
           Neue Skizze erstellen
         </Button>
       </div>

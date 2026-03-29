@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Plus, Layers } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ElementDetailPanel } from '@/components/elemente/ElementDetailPanel'
+import { ElementCreateDialog } from '@/components/elemente/ElementCreateDialog'
 import {
   useElementTemplates,
   useDeleteTemplate,
@@ -13,23 +14,16 @@ import { cn } from '@/lib/utils'
 
 export default function DesktopElementePage(): React.JSX.Element {
   const [selected, setSelected] = useState<ElementTemplate | null>(null)
-  const [isCreating, setIsCreating] = useState(false)
+  const [createDialogOpen, setCreateDialogOpen] = useState(false)
   const { data: templates, isLoading, isError, refetch } = useElementTemplates()
   const deleteMutation = useDeleteTemplate()
 
-  function handleNew(): void {
-    setSelected(null)
-    setIsCreating(true)
-  }
-
   function handleSelect(template: ElementTemplate): void {
     setSelected(template)
-    setIsCreating(false)
   }
 
   function handlePanelClose(): void {
     setSelected(null)
-    setIsCreating(false)
   }
 
   async function handleDelete(id: string): Promise<void> {
@@ -41,15 +35,13 @@ export default function DesktopElementePage(): React.JSX.Element {
     }
   }
 
-  const showPanel = isCreating || selected !== null
-
   return (
     <div className="flex h-full">
       {/* Linke Spalte: Liste */}
       <div className="w-80 shrink-0 border-r border-border flex flex-col">
         <div className="flex items-center justify-between px-4 h-14 border-b border-border shrink-0">
           <h2 className="font-semibold">Elemente</h2>
-          <Button size="sm" onClick={handleNew} className="gap-1">
+          <Button size="sm" onClick={() => setCreateDialogOpen(true)} className="gap-1">
             <Plus className="h-4 w-4" />
             Neu
           </Button>
@@ -103,13 +95,13 @@ export default function DesktopElementePage(): React.JSX.Element {
         </div>
       </div>
 
-      {/* Rechte Seite: Detail / Erstellen */}
+      {/* Rechte Seite: Detail */}
       <div className="flex-1 overflow-y-auto">
-        {showPanel ? (
+        {selected ? (
           <ElementDetailPanel
             template={selected}
             onClose={handlePanelClose}
-            onDelete={selected ? () => handleDelete(selected.id) : undefined}
+            onDelete={() => handleDelete(selected.id)}
           />
         ) : (
           <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
@@ -117,6 +109,11 @@ export default function DesktopElementePage(): React.JSX.Element {
           </div>
         )}
       </div>
+
+      <ElementCreateDialog
+        open={createDialogOpen}
+        onOpenChange={setCreateDialogOpen}
+      />
     </div>
   )
 }

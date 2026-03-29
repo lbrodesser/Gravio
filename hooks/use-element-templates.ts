@@ -37,7 +37,7 @@ export function useElementTemplates(): UseQueryResult<ElementTemplate[], Error> 
 }
 
 export function useCreateTemplate(): UseMutationResult<
-  { error: string | null },
+  { error: string | null; id?: string },
   Error,
   ElementTemplateFormData
 > {

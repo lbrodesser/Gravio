@@ -10,7 +10,7 @@ import {
 
 export async function createElementTemplate(
   data: ElementTemplateFormData
-): Promise<{ error: string | null }> {
+): Promise<{ error: string | null; id?: string }> {
   const parsed = ElementTemplateFormSchema.safeParse(data)
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message ?? 'Ungültige Eingabe' }
@@ -23,15 +23,17 @@ export async function createElementTemplate(
 
   if (!user) return { error: 'Nicht angemeldet' }
 
-  const { error } = await supabase
+  const { data: inserted, error } = await supabase
     .from('element_templates')
     .insert({ ...parsed.data, created_by: user.id })
+    .select('id')
+    .single()
 
   if (error) return { error: error.message }
 
   revalidatePath('/mobile/elemente')
   revalidatePath('/desktop/elemente')
-  return { error: null }
+  return { error: null, id: (inserted as { id: string }).id }
 }
 
 export async function updateElementTemplate(

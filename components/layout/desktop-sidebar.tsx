@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import {
   PenLine,
   Layers,
-  FileText,
+  HardHat,
   ClipboardList,
   Settings,
   ChevronLeft,
@@ -21,7 +21,7 @@ import { useAuth } from '@/hooks/use-auth'
 const navItems = [
   { href: '/desktop/home', icon: PenLine, label: 'Skizze' },
   { href: '/desktop/elemente', icon: Layers, label: 'Elemente' },
-  { href: '/desktop/aufmasse', icon: FileText, label: 'Aufmaße' },
+  { href: '/desktop/aufmasse', icon: HardHat, label: 'Baustellen' },
   { href: '/desktop/lv', icon: ClipboardList, label: 'Leistungsverzeichnis' },
   { href: '/desktop/einstellungen', icon: Settings, label: 'Einstellungen' },
 ] as const

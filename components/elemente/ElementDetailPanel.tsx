@@ -110,7 +110,7 @@ export function ElementDetailPanel({
   }, [template, reset])
 
   function handleLvChange(value: string | null): void {
-    const newId = value === '__none__' || value === null ? null : value
+    const newId = !value ? null : value
     setValue('lv_gruppe_id', newId, { shouldDirty: true })
     const manual = positionen.filter((p) => !p.lv_position_id)
     setValue('positionen', manual, { shouldDirty: true })
@@ -181,14 +181,13 @@ export function ElementDetailPanel({
             <div className="space-y-1">
               <Label>Leistungsverzeichnis</Label>
               <Select
-                value={currentLvId ?? '__none__'}
+                value={currentLvId ?? ''}
                 onValueChange={handleLvChange}
               >
                 <SelectTrigger className="h-10">
-                  <SelectValue placeholder="— kein LV —" />
+                  <SelectValue placeholder="Leistungsverzeichnis auswählen" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="__none__">— kein LV —</SelectItem>
                   {lvGruppen.map((lv) => (
                     <SelectItem key={lv.id} value={lv.id}>
                       {lv.name}

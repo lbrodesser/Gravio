@@ -1,7 +1,10 @@
-import { MobileHomeSkeleton } from '@/components/shared/mobile-home-skeleton'
+'use client'
+
 import { Suspense } from 'react'
 import { PenLine } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { MobileHomeSkeleton } from '@/components/shared/mobile-home-skeleton'
+import { toast } from 'sonner'
 
 function SkizzenEmptyState(): React.JSX.Element {
   return (
@@ -13,7 +16,11 @@ function SkizzenEmptyState(): React.JSX.Element {
       <p className="text-sm text-muted-foreground mt-2 max-w-xs">
         Erstelle deine erste Baustellen-Skizze
       </p>
-      <Button className="mt-6 w-full h-14 text-base" size="lg">
+      <Button
+        className="mt-6 w-full h-14 text-base"
+        size="lg"
+        onClick={() => toast.info('Skizzen-Funktion folgt in Kürze')}
+      >
         Neue Skizze erstellen
       </Button>
     </div>
