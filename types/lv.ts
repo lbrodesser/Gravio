@@ -48,12 +48,28 @@ export interface AbrechnungPosition {
   created_at: string | null
 }
 
+export interface VorlageMapping {
+  sheet_index: number          // 0-basierter Index des Sheets
+  header_row: number           // 0-basierte Zeile mit Spaltenüberschriften
+  data_start_row: number       // 0-basierte erste Zeile für Datenwerte
+  columns: {
+    positionsname: number | null
+    einheit: number | null
+    menge: number | null
+    einheitspreis: number | null
+    faktor: number | null
+    gesamtpreis: number | null
+  }
+}
+
 export interface Abrechnungsvorlage {
   id: string
   user_id: string
   name: string
   storage_path: string
   created_at: string | null
+  mapping: VorlageMapping | null
+  analysiert: boolean
 }
 
 // Aggregated type for display
