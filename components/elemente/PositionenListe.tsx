@@ -57,6 +57,7 @@ export function PositionenListe({
             <Input
               type="number"
               step="0.01"
+              min="0"
               placeholder="Menge"
               value={pos.menge ?? ''}
               onChange={(e) => updateMenge(pos.id, e.target.value)}
@@ -68,7 +69,7 @@ export function PositionenListe({
               variant="ghost"
               size="icon"
               onClick={() => remove(pos.id)}
-              className="h-10 w-10 shrink-0 text-destructive hover:text-destructive"
+              className="h-14 w-14 shrink-0 text-destructive hover:text-destructive"
               aria-label={`${pos.name} entfernen`}
             >
               <Trash2 className="h-4 w-4" />
