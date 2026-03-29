@@ -54,7 +54,6 @@ export function ElementDetailPanel({
     setValue,
     control,
     reset,
-    watch,
     formState: { errors },
   } = useForm<ElementTemplateFormInput, unknown, ElementTemplateFormData>({
     resolver: zodResolver(ElementTemplateFormSchema),
@@ -70,7 +69,7 @@ export function ElementDetailPanel({
   })
 
   const positionen = useWatch({ control, name: 'positionen' }) ?? []
-  const currentLvId = (watch('lv_gruppe_id') as string | null | undefined) ?? null
+  const currentLvId = (useWatch({ control, name: 'lv_gruppe_id' }) as string | null | undefined) ?? null
 
   const { data: lvPositionen = [], isLoading: lvLoading } = useLvPositionen(currentLvId)
 

@@ -1,7 +1,7 @@
 // components/elemente/LvPositionenSheet.tsx
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Search, Check } from 'lucide-react'
 import {
   Sheet,
@@ -36,14 +36,6 @@ export function LvPositionenSheet({
     new Set(initialSelectedIds)
   )
   const [query, setQuery] = useState('')
-
-  // Wenn das Sheet geöffnet wird, Selektion neu initialisieren
-  useEffect(() => {
-    if (open) {
-      setSelected(new Set(initialSelectedIds))
-      setQuery('')
-    }
-  }, [open, initialSelectedIds])
 
   const filtered = query.trim()
     ? positionen.filter((p) =>

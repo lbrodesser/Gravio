@@ -58,7 +58,6 @@ export function ElementFormSheet({
     setValue,
     control,
     reset,
-    watch,
     formState: { errors },
   } = useForm<ElementTemplateFormInput, unknown, ElementTemplateFormData>({
     resolver: zodResolver(ElementTemplateFormSchema),
@@ -74,7 +73,7 @@ export function ElementFormSheet({
   })
 
   const positionen = useWatch({ control, name: 'positionen' }) ?? []
-  const currentLvId = (watch('lv_gruppe_id') as string | null | undefined) ?? null
+  const currentLvId = (useWatch({ control, name: 'lv_gruppe_id' }) as string | null | undefined) ?? null
 
   const { data: lvPositionen = [], isLoading: lvLoading } = useLvPositionen(currentLvId)
 
@@ -290,6 +289,7 @@ export function ElementFormSheet({
 
       {/* Positions-Picker als separates Sheet */}
       <LvPositionenSheet
+        key={pickerOpen ? 'picker-open' : 'picker-closed'}
         open={pickerOpen}
         onOpenChange={setPickerOpen}
         positionen={lvPositionOptions}

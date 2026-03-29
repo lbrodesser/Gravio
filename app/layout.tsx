@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from 'next'
+import { Inter } from 'next/font/google'
 import './globals.css'
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 import { Providers } from '@/components/providers'
 import { Toaster } from 'sonner'
 
@@ -32,7 +35,7 @@ export default function RootLayout({
 }): React.JSX.Element {
   return (
     <html lang="de" suppressHydrationWarning>
-      <body>
+      <body className={inter.variable}>
         <Providers>
           {children}
           <Toaster richColors closeButton />
