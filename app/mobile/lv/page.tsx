@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { useLvGruppen } from '@/hooks/use-lv'
 import { LvGruppeCard } from '@/components/lv/LvGruppeCard'
 import { LvImportDialog } from '@/components/lv/LvImportDialog'
+import { AbrechnungsvorlageSection } from '@/components/abrechnung/AbrechnungsvorlageSection'
 
 export default function MobileLvPage(): React.JSX.Element {
   const [importOpen, setImportOpen] = useState(false)
@@ -43,6 +44,10 @@ export default function MobileLvPage(): React.JSX.Element {
 
         {!isLoading &&
           gruppen?.map((g) => <LvGruppeCard key={g.id} gruppe={g} />)}
+
+        <div className="pt-4 border-t">
+          <AbrechnungsvorlageSection />
+        </div>
       </div>
 
       <LvImportDialog open={importOpen} onOpenChange={setImportOpen} />

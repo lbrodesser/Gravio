@@ -5,6 +5,7 @@ import { Plus, ClipboardList } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useLvGruppen, useLvPositionen } from '@/hooks/use-lv'
 import { LvImportDialog } from '@/components/lv/LvImportDialog'
+import { AbrechnungsvorlageSection } from '@/components/abrechnung/AbrechnungsvorlageSection'
 import type { LvGruppe } from '@/types/lv'
 
 export default function DesktopLvPage(): React.JSX.Element {
@@ -54,6 +55,11 @@ export default function DesktopLvPage(): React.JSX.Element {
               {g.name}
             </button>
           ))}
+        </div>
+
+        {/* Abrechnungsvorlage Section am unteren Ende der Sidebar */}
+        <div className="border-t p-3">
+          <AbrechnungsvorlageSection />
         </div>
       </aside>
 
