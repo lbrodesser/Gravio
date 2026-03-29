@@ -46,6 +46,7 @@ export interface ElementTemplate {
   laenge: number | null
   breite: number | null
   tiefe: number | null
+  lv_gruppe_id: string | null
   positionen: Position[]
   created_by: string
 }

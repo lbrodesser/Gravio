@@ -29,6 +29,10 @@ export const ElementTemplateFormSchema = z.object({
   laenge: nullableNumber,
   breite: nullableNumber,
   tiefe: nullableNumber,
+  lv_gruppe_id: z.preprocess(
+    (v) => (v === '' ? null : v),
+    z.string().uuid().nullable().optional()
+  ),
   positionen: z.array(PositionSchema).default([]),
 })
 
