@@ -112,7 +112,7 @@ export function ElementDetailPanel({
 
   function handleLvChange(value: string | null): void {
     const newId = value === '__none__' || value === null ? null : value
-    setValue('lv_gruppe_id', newId ?? undefined, { shouldDirty: true })
+    setValue('lv_gruppe_id', newId, { shouldDirty: true })
     const manual = positionen.filter((p) => !p.lv_position_id)
     setValue('positionen', manual, { shouldDirty: true })
   }
